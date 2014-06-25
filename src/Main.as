@@ -37,7 +37,8 @@
 			T = Object(root).Text_txt;
 			
 			stage.addEventListener(Event.ENTER_FRAME, UpdateCursor);
-			stage.addEventListener(MouseEvent.CLICK, Clicked);
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
 		
 			for (var i = 0; i < obstArray.length; i++ ) {
 			addChild(obstArray[i]);	
@@ -72,7 +73,22 @@
 		
 		
 			var playerpointerx =0;
-			var playerpointery =0;
+			var playerpointery = 0;
+			var mDown = false;
+			
+			private function mouseDown(e:Event) {
+			mDown = true;
+	
+			}
+			
+			private function mouseUp (e:Event) {
+			mDown = false;
+	
+			}
+			
+			
+			
+			
 		private function Clicked(e:Event)
 		{
 			playerpointery = stage.mouseY;
@@ -86,12 +102,19 @@
 		
 		private function UpdateCursor(e:Event)
 		{
+			if (mDown) {
+			
+			playerpointery = stage.mouseY;
+			playerpointerx = stage.mouseX;	
+			}
+
+			
 			MousePoint.x = stage.mouseX;
 			MousePoint.y = stage.mouseY;
 			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
 		
-			player_mc.MoveTo(MousePoint.x, MousePoint.y,10); 
-			player_mc2.MoveTo(playerpointerx, playerpointery, 10);
+			player_mc.MoveTo(MousePoint.x, MousePoint.y,20); 
+			player_mc2.MoveTo(playerpointerx, playerpointery, 20);
 			for (var i = 0; i < obstArray.length; i++ ) {
 			CheckHits(obstArray[i])
 			}
