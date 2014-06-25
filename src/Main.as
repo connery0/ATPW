@@ -42,7 +42,8 @@
 			addChild(obstArray[i]);	
 			}
 			
-			
+			player_mc.x = stage.mouseX;
+			player_mc.y = stage.mouseY;
 			addChild(player_mc);
 		
 		}
@@ -59,14 +60,16 @@
 		
 		private function UpdateCursor(e:Event)
 		{
-			player_mc.MoveTo(MousePoint.x, MousePoint.y); 
 			MousePoint.x = stage.mouseX;
 			MousePoint.y = stage.mouseY;
 			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
 		
+			player_mc.MoveTo(MousePoint.x, MousePoint.y,10); 
+			
 			for (var i = 0; i < obstArray.length; i++ ) {
 			CheckHits(obstArray[i])
 			}
+			
 		}
 		
 		
