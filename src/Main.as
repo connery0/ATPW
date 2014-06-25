@@ -16,7 +16,7 @@
 		var MousePoint:Point=new Point(0,0);
 		var T:TextField;
 		var point1:Array = [0, 0];
-		var Player:player = new player();
+		var pL:player = new player();
 		
 		public function Main():void
 		{
@@ -43,27 +43,44 @@
 			}
 			
 			
-			addChild(Player);
+			addChild(pL);
 		
 		}
+		
+		
 		
 		private function Clicked(e:Event)
 		{
 		}
 		
-		var obstArray:Array=[new Object_mc(new Point(50, 100)),new Object_mc(new Point(100, 100)),new Object_mc(new Point(120, 300))]
+		var obstArray:Array=[new Object_mc(new Point(50, 100)),new Object_mc(new Point(100, 100)),new Table_mc(new Point(120, 300))]
+		
+		
 		
 		private function UpdateCursor(e:Event)
 		{
-			Player.MoveTo(MousePoint.x, MousePoint.y); 
+			pL.MoveTo(MousePoint.x, MousePoint.y); 
 			MousePoint.x = stage.mouseX;
 			MousePoint.y = stage.mouseY;
 			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
 		
 			for (var i = 0; i < obstArray.length; i++ ) {
-			obstArray[i].Collide(MousePoint);
+			CheckHits(obstArray[i])
 			}
 		}
+		
+		
+		private function CheckHits(O:Object_mc) {
+			
+				if (O.Collide(new Point((pL.x - pL.width / 2), pL.y))||O.Collide(new Point((pL.x - pL.width / 2), pL.y - pL.height/2))||O.Collide(new Point((pL.x), pL.y - pL.height))||O.Collide(new Point((pL.x), pL.y - pL.height/2))||O.Collide(new Point((pL.x), pL.y))||O.Collide(new Point((pL.x + pL.width / 2), pL.y))||O.Collide(new Point((pL.x + pL.width / 2), pL.y - pL.height/2)))
+				{
+					O.gotoAndStop(2)
+				}
+				else {
+				O.gotoAndStop(1);	
+				}
+		}
+		
 		
 		public function TrackRoute(position:Point):void
 		{
