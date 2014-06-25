@@ -16,7 +16,7 @@
 		var MousePoint:Point=new Point(0,0);
 		var T:TextField;
 		var point1:Array = [0, 0];
-		var pL:player = new player();
+		var player_mc:player = new player();
 		
 		public function Main():void
 		{
@@ -43,7 +43,7 @@
 			}
 			
 			
-			addChild(pL);
+			addChild(player_mc);
 		
 		}
 		
@@ -53,13 +53,13 @@
 		{
 		}
 		
-		var obstArray:Array=[new Object_mc(new Point(50, 100)),new Object_mc(new Point(100, 100)),new Table_mc(new Point(120, 300))]
+		var obstArray:Array = [new Object_mc(new Point(50, 100)), new Object_mc(new Point(100, 100)), new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new pc_mc(new Point(78, 109)), new bar_mc(new Point(327, 360)) ]
 		
 		
 		
 		private function UpdateCursor(e:Event)
 		{
-			pL.MoveTo(MousePoint.x, MousePoint.y); 
+			player_mc.MoveTo(MousePoint.x, MousePoint.y); 
 			MousePoint.x = stage.mouseX;
 			MousePoint.y = stage.mouseY;
 			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
@@ -72,7 +72,7 @@
 		
 		private function CheckHits(O:Object_mc) {
 			
-				if (O.Collide(new Point((pL.x - pL.width / 2), pL.y))||O.Collide(new Point((pL.x - pL.width / 2), pL.y - pL.height/2))||O.Collide(new Point((pL.x), pL.y - pL.height))||O.Collide(new Point((pL.x), pL.y - pL.height/2))||O.Collide(new Point((pL.x), pL.y))||O.Collide(new Point((pL.x + pL.width / 2), pL.y))||O.Collide(new Point((pL.x + pL.width / 2), pL.y - pL.height/2)))
+				if (O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y))||O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y - player_mc.height/2))||O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height))||O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height/2))||O.Collide(new Point((player_mc.x), player_mc.y))||O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y))||O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y - player_mc.height/2)))
 				{
 					O.gotoAndStop(2)
 				}
