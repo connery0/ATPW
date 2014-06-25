@@ -16,7 +16,8 @@
 		var MousePoint:Point=new Point(0,0);
 		var T:TextField;
 		var point1:Array = [0, 0];
-		var player_mc:player = new player();
+		var player_mc:player = new player(1);
+		var player_mc2:player = new player(2);
 		
 		public function Main():void
 		{
@@ -35,8 +36,8 @@
 		
 			T = Object(root).Text_txt;
 			
-			this.addEventListener(Event.ENTER_FRAME, UpdateCursor);
-			this.addEventListener(MouseEvent.CLICK, Clicked);
+			stage.addEventListener(Event.ENTER_FRAME, UpdateCursor);
+			stage.addEventListener(MouseEvent.CLICK, Clicked);
 		
 			for (var i = 0; i < obstArray.length; i++ ) {
 			addChild(obstArray[i]);	
@@ -44,14 +45,39 @@
 			
 			player_mc.x = stage.mouseX;
 			player_mc.y = stage.mouseY;
+			player_mc2.x = stage.mouseX;
+			player_mc2.y = stage.mouseY;
+			playerpointery = stage.mouseY;
+			playerpointerx = stage.mouseX;
+			
 			addChild(player_mc);
+			addChild(player_mc2);
 		
+			
+			DoMath(Math.PI/3);
+			
 		}
 		
+		public function DoMath(angle:Number) {
+		
+			trace("A= " + angle);
+			trace("Cos= " +int( Math.cos(angle)*100)/100);
+			trace("Sin= " +int(Math.sin(angle)*100)/100);
+			
+			
+			
+			}
 		
 		
+		
+		
+			var playerpointerx =0;
+			var playerpointery =0;
 		private function Clicked(e:Event)
 		{
+			playerpointery = stage.mouseY;
+			playerpointerx = stage.mouseX;
+			
 		}
 		
 		var obstArray:Array = [new Object_mc(new Point(50, 100)), new Object_mc(new Point(100, 100)), new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new pc_mc(new Point(78, 109)), new bar_mc(new Point(327, 360)) ]
@@ -65,7 +91,7 @@
 			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
 		
 			player_mc.MoveTo(MousePoint.x, MousePoint.y,10); 
-			
+			player_mc2.MoveTo(playerpointerx, playerpointery, 10);
 			for (var i = 0; i < obstArray.length; i++ ) {
 			CheckHits(obstArray[i])
 			}
@@ -75,7 +101,7 @@
 		
 		private function CheckHits(O:Object_mc) {
 			
-				if (O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y))||O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y - player_mc.height/2))||O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height))||O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height/2))||O.Collide(new Point((player_mc.x), player_mc.y))||O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y))||O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y - player_mc.height/2)))
+				if ((O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y))||O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y - player_mc.height/2))||O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height))||O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height/2))||O.Collide(new Point((player_mc.x), player_mc.y))||O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y))||O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y - player_mc.height/2)))||(O.Collide(new Point((player_mc2.x - player_mc2.width / 2), player_mc2.y))||O.Collide(new Point((player_mc2.x - player_mc2.width / 2), player_mc2.y - player_mc2.height/2))||O.Collide(new Point((player_mc2.x), player_mc2.y - player_mc2.height))||O.Collide(new Point((player_mc2.x), player_mc2.y - player_mc2.height/2))||O.Collide(new Point((player_mc2.x), player_mc2.y))||O.Collide(new Point((player_mc2.x + player_mc2.width / 2), player_mc2.y))||O.Collide(new Point((player_mc2.x + player_mc2.width / 2), player_mc2.y - player_mc2.height/2))))
 				{
 					O.gotoAndStop(2)
 				}

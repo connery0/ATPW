@@ -6,67 +6,29 @@
 	public class player extends MovieClip
 	{
 		
-		public function player()
+		public function player(Frame:int)
 		{
+			gotoAndStop(Frame);
 			// constructor code
 		}
 		
 		public function MoveTo(xPos:int, yPos:int, speed:int):void
 		{
-			var testx=x;
-			var testy=y;
-			if (x != xPos)
-			{
-				if (x < xPos)
-				{
-					if (x + speed >= xPos)
-					{
-						x = xPos;
-					}
-					else
-					{
-						x += speed;
-					}
-				}
-				else
-				{
-					if (x - speed <= xPos)
-					{
-						x = xPos;
-					}
-					else
-					{
-						x -= speed;
-					}
-				}
-			}
+			var beta:Number = Math.atan((yPos - y) / (xPos - x));
+			var xspeed:Number=speed*int(Math.cos(beta)*100)/100;
+			var yspeed:Number=speed*int(Math.sin(beta)*100)/100;
+			if (xspeed < 0) { xspeed = -xspeed; }
+			if (yspeed < 0) { yspeed = -yspeed; }
+			if (x > xPos) { xspeed = -xspeed; }
+			if (y > yPos) { yspeed = -yspeed; }
 			
-			if (y != yPos)
-			{
-				
-				if (y < yPos)
-				{
-					if (y + speed >= yPos)
-					{
-						y = yPos;
-					}
-					else
-					{
-						y += speed;
-					}
-				}
-				else
-				{
-					if (y - speed <= yPos)
-					{
-						y = yPos;
-					}
-					else
-					{
-						y -= speed;
-					}
-				}
-			}
+			if ((xspeed > 0 && x + xspeed >= xPos) || ( xspeed < 0 && x + xspeed <= xPos)) {
+			x = xPos;	
+			}else{x += xspeed;}
+			if ((yspeed > 0 && y + yspeed >= yPos) || ( yspeed < 0 && y + yspeed <= yPos)) {
+			y = yPos;	
+			}else{y += yspeed;}
+			
 		}
 	
 	}
