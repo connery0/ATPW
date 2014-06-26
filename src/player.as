@@ -1,14 +1,14 @@
-﻿package
+﻿	package
 {
 	
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	
-	public class player extends MovieClip
+	public class Player extends MovieClip
 	{
 		var Parent:Main;
 		
-		public function player(Parent:Main)
+		public function Player(Parent:Main)
 		{
 			this.Parent = Parent;
 			// constructor code

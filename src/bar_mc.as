@@ -1,16 +1,13 @@
-﻿
-package  {
+﻿package
+{
+	import flash.geom.Point;
 	
-		import flash.geom.Point;
-
-	
-	
-	public class bar_mc  extends Object_mc{
-		
-		
-	public function bar_mc(Position:Point) {
-		super(Position);
-			}
+	public class Bar_mc extends Object_mc
+	{
+		public function Bar_mc(Position:Point)
+		{
+			super(Position);
+		}
 	}
-	
+
 }

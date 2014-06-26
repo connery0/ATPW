@@ -4,10 +4,10 @@
 
 	
 	
-	public class pc_mc extends Object_mc{
+	public class Pc_mc extends Object_mc{
 		
 		
-	public function pc_mc(Position:Point) {
+	public function Pc_mc(Position:Point) {
 		super(Position);
 			}
 	}

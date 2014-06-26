@@ -16,7 +16,7 @@
 		var MousePoint:Point = new Point(0, 0);
 		var T:TextField;
 		var point1:Array = [0, 0];
-		var player_mc:player ;
+		var player_mc:Player;
 		
 		public function Main():void
 		{
@@ -32,7 +32,7 @@
 			///////////////////////////////////////////////////////////////
 			// entry point                                               //
 			///////////////////////////////////////////////////////////////
-			player_mc = new player(this);
+			player_mc = new Player(this);
 			player_mc.x = 330;
 			player_mc.y = 225;
 			T = Object(root).Text_txt;
@@ -40,6 +40,10 @@
 			stage.addEventListener(Event.ENTER_FRAME, UpdateCursor);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+			
+			
 			
 			for (var i = 0; i < obstArray.length; i++)
 			{
@@ -47,7 +51,7 @@
 			}
 			
 			playerpointery = player_mc.y;
-			playerpointerx =player_mc.x;
+			playerpointerx = player_mc.x;
 			
 			addChild(player_mc);
 			
@@ -84,16 +88,63 @@
 		{
 			playerpointery = stage.mouseY;
 			playerpointerx = stage.mouseX;
-		
 		}
 		
-		var obstArray:Array = [new Object_mc(new Point(50, 100)), new Object_mc(new Point(100, 100)), new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new pc_mc(new Point(78, 109)), new bar_mc(new Point(327, 360))]
+		var obstArray:Array = [new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new Pc_mc(new Point(78, 109)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point(-39, 250)), new BorderV(new Point(840, 250))]
+		
+		
+		
+		
+		
+		private function keyDown(e:KeyboardEvent) {
+		
+			switch(e.keyCode) {
+				case 37: 
+				playerpointerx = player_mc.x-200;
+				break;
+				
+				case 38: 
+				playerpointery = player_mc.y-200;
+				break;
+				
+				case 39: 
+				playerpointerx = player_mc.x+200;
+				break;
+				
+				case 40: 
+				playerpointery = player_mc.y+200;
+				break;
+				
+				}	
+			
+			}
+		
+		private function keyUp(e:KeyboardEvent) {
+			
+			switch(e.keyCode) {
+				case 37: 
+				playerpointerx = player_mc.x;
+				break;
+				
+				case 38: 
+				playerpointery = player_mc.y;
+				break;
+				
+				case 39: 
+				playerpointerx = player_mc.x;
+				break;
+				
+				case 40: 
+				playerpointery = player_mc.y;
+				break;
+				
+				}	
+		}
 		
 		private function UpdateCursor(e:Event)
 		{
 			if (mDown)
 			{
-				
 				playerpointery = stage.mouseY;
 				playerpointerx = stage.mouseX;
 			}
@@ -103,30 +154,15 @@
 			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
 			
 			player_mc.MoveTo(playerpointerx, playerpointery, 20);
-			for (var i = 0; i < obstArray.length; i++)
-			{
-				//	CheckHits(obstArray[i])
-			}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		}
 		
-		public function getObjects()
+		public function getObjects():Array
 		{
 			return obstArray;
 		}
 		
-		private function CheckHits(O:Object_mc)
-		{
-			
-			if (O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y)) || O.Collide(new Point((player_mc.x - player_mc.width / 2), player_mc.y - player_mc.height / 2)) || O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height)) || O.Collide(new Point((player_mc.x), player_mc.y - player_mc.height / 2)) || O.Collide(new Point((player_mc.x), player_mc.y)) || O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y)) || O.Collide(new Point((player_mc.x + player_mc.width / 2), player_mc.y - player_mc.height / 2)))
-			{
-				O.gotoAndStop(2)
-			}
-			else
-			{
-				O.gotoAndStop(1);
-			}
-		}
 		
 		public function MovePoint(toMove:Array, moveTo:Array, distance:int):Array
 		{
