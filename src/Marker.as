@@ -1,14 +1,18 @@
 ﻿package  {
 	
 	import flash.display.MovieClip;
+	import flash.geom.Point;
 	
 	
 	public class Marker extends MovieClip {
 		
 		
-		public function Marker(X:int,Y:int) {
-			this.x = X;
-			this.y = Y;			
+		public function Marker(P:Point) {
+			this.x = P.x;
+			this.y = P.y;			
+		}
+		public function getPoint():Point {
+			return  this.localToGlobal(new Point(x, y));
 		}
 	}
 	

@@ -51,6 +51,7 @@
 					x += xspeed;
 				}
 			}
+		
 			
 				if (xspeed < 0 && !CheckPoints([new Point(x - (width / 2) + xspeed, y), new Point(x - (width / 2) + xspeed, y - (height / 2)), new Point(x - (width / 2) + xspeed, y - height)]))
 			{
@@ -107,6 +108,7 @@
 						collision = true;
 						i = Parent.getObjects().length;
 						j = Points.length;
+					
 					}
 				}
 			}
