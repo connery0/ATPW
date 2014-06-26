@@ -7,6 +7,7 @@
 		public function Bar_mc(Position:Point)
 		{
 			super(Position);
+			
 		}
 	}
 

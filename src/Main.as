@@ -32,16 +32,15 @@
 			///////////////////////////////////////////////////////////////
 			// entry point                                               //
 			///////////////////////////////////////////////////////////////
+			
 			player_mc = new Player(this);
+			charArray= [new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this)];
+			
+			
 			player_mc.x = 330;
 			player_mc.y = 225;
-			T = Object(root).Text_txt;
 			
-			stage.addEventListener(Event.ENTER_FRAME, UpdateGame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+			AddListeners();
 			
 			for (var i = 0; i < (obstArray.concat(charArray)).length; i++)
 			{
@@ -52,12 +51,41 @@
 			playerpointerx = player_mc.x;
 			
 			addChild(player_mc);
-				
-			CreateTalkRange(32, 60);
-		
+			
+			CreateTalkRange(32, 60);		
 		}
 		var centerP:Marker;
 		var talkrange:Array;
+		
+		public function AddListeners()
+		{
+			stage.addEventListener(Event.ENTER_FRAME, UpdateGame);
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+			
+			for (var i = 0; i < charArray.length; i++)
+			{
+				Character(charArray[i]).addEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
+			}
+		
+		}
+		
+		public function RemoveListeners()
+		{
+			stage.removeEventListener(Event.ENTER_FRAME, UpdateGame);
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			stage.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
+			
+			for (var i = 0; i < charArray.length; i++)
+			{
+				Character(charArray[i]).removeEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
+			}
+		
+		}
 		
 		private function CreateTalkRange(dots:int, range:int)
 		{
@@ -76,8 +104,6 @@
 			}
 		
 		}
-		
-
 		
 		var playerpointerx = 0;
 		var playerpointery = 0;
@@ -103,7 +129,8 @@
 		
 		//////////////////////////////////////////////////////////////////////
 		var obstArray:Array = [new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point(-39, 250)), new BorderV(new Point(840, 250))]
-		var charArray:Array = [new Pc_mc(new Point(78, 109)), new Bartering_mc(new Point(323, 351))];
+		var charArray:Array;
+		
 		//////////////////////////////////////////////////////////////////////
 		
 		private function keyDown(e:KeyboardEvent)
@@ -155,6 +182,7 @@
 			}
 		}
 		var Q:Boolean = true;
+		
 		private function UpdateGame(e:Event)
 		{
 			if (mDown)
@@ -165,7 +193,7 @@
 			
 			MousePoint.x = stage.mouseX;
 			MousePoint.y = stage.mouseY;
-			T.text = "X= " + MousePoint.x + " Y= " + MousePoint.y;
+	
 			
 			player_mc.MoveTo(playerpointerx, playerpointery, 20);
 			
@@ -177,7 +205,7 @@
 			for (var i = 0; i < charArray.length; i++)
 			{
 				var Q:Boolean = false;
-					
+				
 				for (var j = 0; j < talkrange.length; j++)
 				{
 					if (charArray[i].Collide(talkrange[j].getPoint()))
@@ -191,7 +219,6 @@
 			}
 		}
 		
-		
 		public function getObjects():Array
 		{
 			return obstArray.concat(charArray);
@@ -201,7 +228,6 @@
 		{
 			var Angle:Number = Math.atan((moveTo[1] - toMove[1]) / (moveTo[0] - toMove[0]));
 			
-		
 			toMove[0] += distance * Math.cos(Angle);
 			toMove[1] += distance * Math.sin(Angle);
 			return toMove;

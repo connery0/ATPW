@@ -14,6 +14,13 @@
 			// constructor code
 		}
 		
+		public function clone():Player {
+				var i:Player = new Player(Parent);
+				i.y = +i.height / 2;
+				return i;
+		}
+		
+		
 		public function MoveTo(xPos:int, yPos:int, speed:int):void
 		{
 			
