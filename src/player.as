@@ -12,13 +12,14 @@
 		{
 			this.Parent = Parent;
 			// constructor code
-			trace([this.localToGlobal(new Point(width / 2 + 0, 0)), this.localToGlobal(new Point(width / 2 + 0, height / 2)), this.localToGlobal(new Point(width / 2 + 0, height))]);
 		}
 		
 		public function MoveTo(xPos:int, yPos:int, speed:int):void
 		{
 			
+
 			var beta:Number = Math.atan((yPos - y) / (xPos - x));
+			
 			var xspeed:Number = speed * int(Math.cos(beta) * 100) / 100;
 			var yspeed:Number = speed * int(Math.sin(beta) * 100) / 100;
 			if (xspeed < 0)

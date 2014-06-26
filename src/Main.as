@@ -52,10 +52,8 @@
 			playerpointerx = player_mc.x;
 			
 			addChild(player_mc);
-			
-			DoMath(Math.PI / 3);
-			
-			CreateTalkRange(10, 50);
+				
+			CreateTalkRange(32, 60);
 		
 		}
 		var centerP:Marker;
@@ -73,20 +71,13 @@
 			{
 				var Angle = (2 * Math.PI / dots) * i;
 				talkrange = talkrange.concat(new Marker(new Point(range * Math.cos(Angle), range * Math.sin(Angle))))
-				centerP.addChild(talkrange[i]);
+				centerP.addChild(talkrange[talkrange.length - 1]);
+				
 			}
-			trace(talkrange);
 		
 		}
 		
-		public function DoMath(angle:Number)
-		{
-			
-			trace("A= " + angle);
-			trace("Cos= " + int(Math.cos(angle) * 100) / 100);
-			trace("Sin= " + int(Math.sin(angle) * 100) / 100);
-		
-		}
+
 		
 		var playerpointerx = 0;
 		var playerpointery = 0;
@@ -110,8 +101,10 @@
 			playerpointerx = stage.mouseX;
 		}
 		
+		//////////////////////////////////////////////////////////////////////
 		var obstArray:Array = [new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point(-39, 250)), new BorderV(new Point(840, 250))]
-		var charArray:Array = [new Pc_mc(new Point(78, 109))];
+		var charArray:Array = [new Pc_mc(new Point(78, 109)), new Bartering_mc(new Point(323, 351))];
+		//////////////////////////////////////////////////////////////////////
 		
 		private function keyDown(e:KeyboardEvent)
 		{
@@ -183,20 +176,21 @@
 			
 			for (var i = 0; i < charArray.length; i++)
 			{
-				
+				var Q:Boolean = false;
+					
 				for (var j = 0; j < talkrange.length; j++)
 				{
-					
 					if (charArray[i].Collide(talkrange[j].getPoint()))
 					{
 						talkrange[j].gotoAndPlay(2);
-						
-						if (Q) { Q = false; trace(charArray);}
+						Q = true;
 					}
 				}
+				charArray[i].talkingRange(Q);
 				
 			}
 		}
+		
 		
 		public function getObjects():Array
 		{
@@ -207,7 +201,7 @@
 		{
 			var Angle:Number = Math.atan((moveTo[1] - toMove[1]) / (moveTo[0] - toMove[0]));
 			
-			trace(Angle + "dist: " + distance + "            cos: " + Math.cos(Angle));
+		
 			toMove[0] += distance * Math.cos(Angle);
 			toMove[1] += distance * Math.sin(Angle);
 			return toMove;

@@ -12,8 +12,9 @@
 			this.y = P.y;			
 		}
 		public function getPoint():Point {
-			return  this.localToGlobal(new Point(x, y));
+			return  this.localToGlobal(new Point(0, 0));
 		}
+	
 	}
 	
 }

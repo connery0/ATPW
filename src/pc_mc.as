@@ -6,6 +6,7 @@
 		
 	public function Pc_mc(Position:Point) {
 		super(Position, "PC");
+		talkPosition = new Point(width/2, 10);
 			}
 	}
 	
