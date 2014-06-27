@@ -6,7 +6,7 @@
 	
 	public class Marker extends MovieClip {
 		
-		
+		var characterName:String="" ;
 		public function Marker(P:Point) {
 			this.x = P.x;
 			this.y = P.y;			

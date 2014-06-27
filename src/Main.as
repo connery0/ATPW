@@ -25,6 +25,7 @@
 		var layer1:Marker;
 		var layer2:Marker;
 		var closestTalker:Character = null;
+		var pickedAFight:Boolean;
 		
 		public function Main():void
 		{
@@ -55,7 +56,8 @@
 		}
 		
 
-		public function dostuff():void{
+		public function dostuff():void {
+			pickedAFight = false;
 			layer1 = new Marker(new Point(0, 0));
 			layer2 = new Marker(new Point(0, 0));
 			
@@ -65,7 +67,7 @@
 			player_mc = new Player(this);
 			/////////////////////////////////////////////////
 			obstArray= [new Table_mc(new Point(60, 288)), new Table_mc(new Point(500, 85)), new Table_mc(new Point(582, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point( -39, 250)), new BorderV(new Point(840, 250))];
-			charArray= [new Polytheist_mc(new Point(507,270),this),new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this),new Greedy_mc(new Point(560,60),this),new Drunk_mc(new Point(45,365),this)];
+			charArray= [new Polytheist_mc(new Point(507,300),this),new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this),new Greedy_mc(new Point(560,60),this),new Drunk_mc(new Point(45,365),this)];
 			//////////////////////////////////////////////////
 			
 			player_mc.x = 320;

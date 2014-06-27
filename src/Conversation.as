@@ -19,11 +19,12 @@
 			click(null);
 		}
 		
-		private function click(e:MouseEvent) {
+		protected function click(e:MouseEvent) {
 			if (index < A.length) {
 				if (currentTalker != null) {
 					MovieClip(pannel).removeChild(currentTalker);
 				}
+				nameText.text = Dialog(A[index]).naam;
 				currentTalker = Dialog(A[index]).portrait;
 				MovieClip(pannel).addChild(currentTalker);
 				TalkText.text = Dialog(A[index]).text;
@@ -36,20 +37,10 @@
 			
 		}
 		
-		private function close() {
+		protected function close() {
 			parentClass.AddListeners();
 			removeEventListener(MouseEvent.CLICK, click);
-			if (parentClass.currentFrameLabel != "bar") {
-				parentClass.RemoveListeners()
-				
-				parentClass.gotoAndStop("fight");
-				while (parentClass.layer1.numChildren > 0) {
-						parentClass.layer1.removeChildAt(0);
-				}
-				
-			}
 			parentClass.layer2.removeChild(this);
-			
 		}
 	}
 	

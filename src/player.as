@@ -7,10 +7,11 @@
 	public class Player extends MovieClip
 	{
 		var Parent:Main;
-		
-		public function Player(Parent:Main)
+		var characterName:String="Pantheist" ;
+		public function Player(Parent:Main,y:int=0)
 		{
 			this.Parent = Parent;
+			this.y = (this.width/2)* y;
 			// constructor code
 		}
 		

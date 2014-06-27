@@ -11,7 +11,7 @@
 	public class Character extends Object_mc
 	{
 		
-		protected var characterName:String;
+		var characterName:String;
 		var talkPosition:Point = new Point(width / 2, -height / 2);
 		var parentClip:Main;
 		var dialog:Array;

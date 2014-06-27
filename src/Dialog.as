@@ -6,12 +6,13 @@ package
 	public class Dialog
 	{
 		var portrait:MovieClip;
-		var text:String
-		
+		var text:String;
+		var naam:String;
 		public function Dialog(char:MovieClip, text:String)
 		{
 			this.text = text;
 			portrait = char;
+			naam = portrait.characterName;
 			if (portrait.height > 70 || portrait.width > 70)
 			{
 				if (portrait.width > portrait.height)
