@@ -10,7 +10,7 @@
 		var index:int;
 		var A:Array;
 		var currentTalker:MovieClip=null;
-		public function Conversation(parent:Main,A:Array) {
+		public function Conversation(parent:Main, A:Array) {
 			index = 0;
 			this.parentClass = parent;
 			parent.RemoveListeners();
@@ -39,6 +39,15 @@
 		private function close() {
 			parentClass.AddListeners();
 			removeEventListener(MouseEvent.CLICK, click);
+			if (parentClass.currentFrameLabel != "bar") {
+				parentClass.RemoveListeners()
+				
+				parentClass.gotoAndStop("fight");
+				while (parentClass.layer1.numChildren > 0) {
+						parentClass.layer1.removeChildAt(0);
+				}
+				
+			}
 			parentClass.layer2.removeChild(this);
 			
 		}

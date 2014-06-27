@@ -22,8 +22,8 @@
 		var obstArray:Array;
 		var charArray:Array;
 		
-		var layer1:Marker = new Marker(new Point(0, 0));
-		var layer2:Marker = new Marker(new Point(0, 0));
+		var layer1:Marker;
+		var layer2:Marker;
 		var closestTalker:Character = null;
 		
 		public function Main():void
@@ -44,7 +44,7 @@
 	
 		}
 		
-		private function introOver(e:Event):void {
+		public function introOver(e:Event):void {
 			
 			if ((MovieClip(this).currentLabel)=="bar") {
 			this.stop();
@@ -54,8 +54,10 @@
 			
 		}
 		
-		public function dostuff():void{
 
+		public function dostuff():void{
+			layer1 = new Marker(new Point(0, 0));
+			layer2 = new Marker(new Point(0, 0));
 			
 			addChild(layer1);
 			addChild(layer2);
