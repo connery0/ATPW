@@ -1,6 +1,7 @@
 ﻿package
 {
 	
+	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.Point;
 	
@@ -12,15 +13,25 @@
 			super(Position, ParentClip, "PC", orignal);
 			talkPosition = new Point(width / 2, 10);
 			pc.text = " This is the intro of atpw enjoy whatever this is suposed to be. press this a lot for the ayeaye thing\n " + clickCount;
-			
-			if (orignal)
-			{
+		}
+		
+		override protected function setDialog() {
+				
 				var P:Player = parentClip.player_mc.clone() //player clone
 				var T:Character = this.clone(); //This clone
-				var Extra:Character = new Bartering_mc(new Point(0,0),parentClip,false);
-				dialog = [new Dialog(T, "Article1: \n blabjkqfmdjqsmldfj"), new Dialog(P, "I think this broke"), new Dialog(T, "YOU SHALL SOON BE PURPLE!!"), new Dialog(P, "... I think I should leave this thing")];
-				bonusDialog = [new Dialog(Extra, "Yes the bonus is in already"),new Dialog(P, "no aye yet though"),new Dialog(P, "He will be added soon-ish"), new Dialog(T, "mabey")];	
-			}
+				var Extra:MovieClip = new AyeAye();
+				
+				dialog = [		new Dialog(T, "Article1: \n blabjkqfmdjqsmldfj"),
+								new Dialog(P, "I think this broke"),
+								new Dialog(T, "YOU SHALL SOON BE PURPLE!!"),
+								new Dialog(P, "... I should probably leave now")];
+				
+				bonusDialog = [	new Dialog(Extra, "Yes the bonus is in already"),
+								new Dialog(Extra, "FEAR ME\nYes I'm actualy serious, be afraid"),
+								new Dialog(Extra, "fine don't be afraid"),
+								new Dialog(Extra, "(ye im that obnoxious)")
+								];	
+	
 		}
 		
 		var clickCount:int = 10;
@@ -31,11 +42,11 @@
 			{
 				if(clickCount>0){
 				clickCount--;
-				parentClip.addChild(new Conversation(parentClip, dialog));
+				startDialog(new Conversation(parentClip, dialog));
 				}
 				else {
 				clickCount = 10;
-				parentClip.addChild(new Conversation(parentClip, bonusDialog));
+				startDialog(new Conversation(parentClip, bonusDialog));
 				}
 				pc.text = " This is the intro of atpw enjoy whatever this is suposed to be. press this a lot for the ayeaye thing\n " + clickCount;
 				

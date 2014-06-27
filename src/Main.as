@@ -3,6 +3,7 @@
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.Point;
+	import flash.net.Responder;
 	import flash.text.*;
 	
 	/**
@@ -17,6 +18,12 @@
 		var T:TextField;
 		var point1:Array = [0, 0];
 		var player_mc:Player;
+		
+		var obstArray:Array;
+		var charArray:Array;
+		
+		var layer1:Marker = new Marker(new Point(0, 0));
+		var layer2:Marker = new Marker(new Point(0, 0));
 		
 		public function Main():void
 		{
@@ -33,9 +40,14 @@
 			// entry point                                               //
 			///////////////////////////////////////////////////////////////
 			
-			player_mc = new Player(this);
-			charArray= [new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this)];
+			addChild(layer1);
+			addChild(layer2);
 			
+			player_mc = new Player(this);
+			/////////////////////////////////////////////////
+			obstArray= [new Table_mc(new Point(60, 288)), new Table_mc(new Point(500, 85)), new Table_mc(new Point(582, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point( -39, 250)), new BorderV(new Point(840, 250))];
+			charArray= [new Polytheist_mc(new Point(507,270),this),new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this),new Greedy_mc(new Point(560,60),this),new Drunk_mc(new Point(45,365),this)];
+			//////////////////////////////////////////////////
 			
 			player_mc.x = 330;
 			player_mc.y = 225;
@@ -44,13 +56,13 @@
 			
 			for (var i = 0; i < (obstArray.concat(charArray)).length; i++)
 			{
-				addChild((obstArray.concat(charArray))[i]);
+				layer1.addChild((obstArray.concat(charArray))[i]);
 			}
 			
 			playerpointery = player_mc.y;
 			playerpointerx = player_mc.x;
 			
-			addChild(player_mc);
+			layer1.addChild(player_mc);
 			
 			CreateTalkRange(32, 60);		
 		}
@@ -93,7 +105,7 @@
 			var centerPoint:Point = new Point(player_mc.x, player_mc.y - (player_mc.height / 2));
 			
 			centerP = new Marker(centerPoint);
-			addChild(centerP);
+			layer1.addChild(centerP);
 			
 			for (var i = 0; i < dots; i++)
 			{
@@ -127,12 +139,7 @@
 			playerpointerx = stage.mouseX;
 		}
 		
-		//////////////////////////////////////////////////////////////////////
-		var obstArray:Array = [new Table_mc(new Point(100, 288)), new Table_mc(new Point(508, 75)), new Table_mc(new Point(562, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point(-39, 250)), new BorderV(new Point(840, 250))]
-		var charArray:Array;
-		
-		//////////////////////////////////////////////////////////////////////
-		
+
 		private function keyDown(e:KeyboardEvent)
 		{
 			

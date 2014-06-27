@@ -42,7 +42,7 @@
 		
 		private function close() {
 			parentClass.AddListeners();
-			parentClass.removeChild(this);
+			parentClass.layer2.removeChild(this);
 		}
 	}
 	

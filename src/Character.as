@@ -21,11 +21,16 @@
 			super(Position);
 			this.parentClip = parentClip;
 			characterName = Name;
-			if(original){
-			dialog = [new Dialog(this.clone(), "You havn't set dialog yet")];}
+			if(original){setDialog()
+			}
 		}
 		
-		
+		protected function setDialog() {
+			dialog = [new Dialog(this.clone(), "You havn't set a dialog yet")];
+		}
+		protected function startDialog(D:Conversation) {
+			parentClip.layer2.addChild(D);
+		}
 		
 		public function clone():Character {
 				var AA:Class = getDefinitionByName(getQualifiedClassName(this)) as Class;
@@ -38,7 +43,7 @@
 		{
 			if (talkChild != null)
 			{ 	
-				parentClip.addChild(new Conversation(parentClip, dialog));
+				startDialog(new Conversation(parentClip, dialog));
 			}
 		}
 
@@ -58,14 +63,14 @@
 					talkChild = new Talk_mc();
 					talkChild.x = x + talkPosition.x;
 					talkChild.y = y + talkPosition.y;
-					stage.addChild(talkChild);
+					parentClip.layer1.addChild(talkChild);
 				}
 			}
 			else
 			{
 				if (talkChild != null)
 				{
-					stage.removeChild(talkChild);
+					parentClip.layer1.removeChild(talkChild);
 					talkChild = null;
 				}
 			}
