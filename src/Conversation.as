@@ -36,13 +36,11 @@
 			
 		}
 		
-		
-		
-		
-		
 		private function close() {
 			parentClass.AddListeners();
+			removeEventListener(MouseEvent.CLICK, click);
 			parentClass.layer2.removeChild(this);
+			
 		}
 	}
 	

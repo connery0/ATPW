@@ -12,7 +12,7 @@
 	 */
 	[Frame(factoryClass="Preloader")]
 	
-	public class Main extends Sprite
+	public class Main extends MovieClip
 	{
 		var MousePoint:Point = new Point(0, 0);
 		var T:TextField;
@@ -24,6 +24,7 @@
 		
 		var layer1:Marker = new Marker(new Point(0, 0));
 		var layer2:Marker = new Marker(new Point(0, 0));
+		var closestTalker:Character = null;
 		
 		public function Main():void
 		{
@@ -39,6 +40,22 @@
 			///////////////////////////////////////////////////////////////
 			// entry point                                               //
 			///////////////////////////////////////////////////////////////
+			addEventListener(Event.ENTER_FRAME, introOver);
+	
+		}
+		
+		private function introOver(e:Event):void {
+			
+			if ((MovieClip(this).currentLabel)=="bar") {
+			this.stop();
+			dostuff();
+			removeEventListener(Event.ENTER_FRAME, introOver);
+			}
+			
+		}
+		
+		public function dostuff():void{
+
 			
 			addChild(layer1);
 			addChild(layer2);
@@ -49,8 +66,8 @@
 			charArray= [new Polytheist_mc(new Point(507,270),this),new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this),new Greedy_mc(new Point(560,60),this),new Drunk_mc(new Point(45,365),this)];
 			//////////////////////////////////////////////////
 			
-			player_mc.x = 330;
-			player_mc.y = 225;
+			player_mc.x = 320;
+			player_mc.y = 20;
 			
 			AddListeners();
 			
@@ -66,6 +83,15 @@
 			
 			CreateTalkRange(32, 60);		
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		var centerP:Marker;
 		var talkrange:Array;
 		

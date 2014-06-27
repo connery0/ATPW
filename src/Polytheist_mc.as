@@ -2,6 +2,7 @@
 {
 	
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 	
 	public class Polytheist_mc extends Character
@@ -28,7 +29,11 @@
 		override public function talkTo(e:Event)
 		{
 			if (talkChild != null)
-			{
+			{ 
+				if (parentClip.closestTalker == this) {
+					parentClip.closestTalker = null;
+					stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyPressed);}
+				
 				if(!pickedAFight){
 				startDialog(new Conversation(parentClip, dialog));
 				pickedAFight = true;

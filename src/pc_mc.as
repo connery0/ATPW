@@ -3,6 +3,7 @@
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 	
 	public class Pc_mc extends Character
@@ -40,6 +41,11 @@
 		{
 			if (talkChild != null)
 			{
+				if (parentClip.closestTalker == this) {
+					parentClip.closestTalker = null;
+					stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyPressed);}
+				
+				
 				if(clickCount>0){
 				clickCount--;
 				startDialog(new Conversation(parentClip, dialog));
