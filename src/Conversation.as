@@ -38,7 +38,7 @@
 		}
 		
 		protected function close() {
-			parentClass.AddListeners();
+			parentClass.addListeners("bar");
 			removeEventListener(MouseEvent.CLICK, click);
 			parentClass.layer2.removeChild(this);
 		}

@@ -27,6 +27,13 @@
 		var closestTalker:Character = null;
 		var pickedAFight:Boolean;
 		
+		var centerP:Marker;
+		var talkrange:Array;
+		var CurrentListeners:String = "";
+		
+		var CurrentLabel:String;
+		var SubLabel:String = ""; //used in the fight
+		
 		public function Main():void
 		{
 			if (stage)
@@ -41,23 +48,88 @@
 			///////////////////////////////////////////////////////////////
 			// entry point                                               //
 			///////////////////////////////////////////////////////////////
-			addEventListener(Event.ENTER_FRAME, introOver);
-	
+			addEventListener(Event.ENTER_FRAME, CheckLabel);
+		
 		}
 		
-		public function introOver(e:Event):void {
+		public function CheckLabel(e:Event):void
+		{
 			
-			if ((MovieClip(this).currentLabel)=="bar") {
-			this.stop();
-			dostuff();
-			removeEventListener(Event.ENTER_FRAME, introOver);
+			if ((MovieClip(this).currentLabel) != CurrentLabel)
+			{
+				switch (MovieClip(this).currentLabel)
+				{
+					case "intro": 
+						CurrentListeners = "";
+						CurrentLabel = "intro";
+						trace("Cue music");
+						break
+					
+					case "bar": 
+						CurrentLabel = "bar"
+						this.stop();
+						BarCode();
+						break
+					
+					case "fight": 
+						stop();
+						addListeners("fight");
+						CurrentLabel = "fight";
+						MovieClip(Kick_mc).addEventListener(MouseEvent.CLICK, atackClicked);
+						MovieClip(Punch_mc).addEventListener(MouseEvent.CLICK, atackClicked);
+						break
+					case "prefight":
+						while (layer1.numChildren > 0)
+						{
+							layer1.removeChildAt(0);
+						}
+						CurrentLabel = "prefight";
+					break
+					
+					case "endPunch":
+						gotoAndPlay("enemyAtack");
+					break	
+					case "endKick":
+						gotoAndPlay("enemyAtack");
+					break	
+					case "endEnemyAtack":
+						gotoAndStop("fight");
+					break	
+					
+					default:
+						CurrentLabel = MovieClip(this).currentLabel;
+					break;
+				
+				}
+				
+			}
+			if ((MovieClip(this).currentLabel) == "fight") {
+				if ((MovieClip(Kick_mc).currentLabel) == "hide" || (MovieClip(Punch_mc).currentLabel) == "hide") {
+					var target:String
+						if (MovieClip(Kick_mc).currentLabel == "hide" ) {
+								target="kick";
+						}else {
+							target="punch";
+						}
+					
+						MovieClip(Kick_mc).gotoAndStop("hide");
+						MovieClip(Punch_mc).gotoAndStop("hide");
+						MovieClip(Charging_mc).gotoAndStop("hide");
+						gotoAndPlay(target);
+				}
 			}
 			
+		
 		}
 		
-
-		public function dostuff():void {
-			pickedAFight = false;
+		public function atackClicked(e:MouseEvent) {
+			e.target.play();
+			
+		}
+		
+		public function BarCode():void
+		{
+			pickedAFight = true;
 			layer1 = new Marker(new Point(0, 0));
 			layer2 = new Marker(new Point(0, 0));
 			
@@ -66,14 +138,14 @@
 			
 			player_mc = new Player(this);
 			/////////////////////////////////////////////////
-			obstArray= [new Table_mc(new Point(60, 288)), new Table_mc(new Point(500, 85)), new Table_mc(new Point(582, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point( -39, 250)), new BorderV(new Point(840, 250))];
-			charArray= [new Polytheist_mc(new Point(507,300),this),new Pc_mc(new Point(78, 109),this), new Bartering_mc(new Point(323, 351),this),new Greedy_mc(new Point(560,60),this),new Drunk_mc(new Point(45,365),this)];
+			obstArray = [new Table_mc(new Point(60, 288)), new Table_mc(new Point(500, 85)), new Table_mc(new Point(582, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point(-39, 250)), new BorderV(new Point(840, 250))];
+			charArray = [new Polytheist_mc(new Point(507, 300), this), new Pc_mc(new Point(78, 109), this), new Bartering_mc(new Point(323, 351), this), new Greedy_mc(new Point(560, 60), this), new Drunk_mc(new Point(45, 365), this)];
 			//////////////////////////////////////////////////
 			
 			player_mc.x = 320;
 			player_mc.y = 20;
 			
-			AddListeners();
+			addListeners("bar");
 			
 			for (var i = 0; i < (obstArray.concat(charArray)).length; i++)
 			{
@@ -85,48 +157,53 @@
 			
 			layer1.addChild(player_mc);
 			
-			CreateTalkRange(32, 60);		
+			CreateTalkRange(32, 60);
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		var centerP:Marker;
-		var talkrange:Array;
-		
-		public function AddListeners()
+		public function addListeners(ListenerType:String)
 		{
-			stage.addEventListener(Event.ENTER_FRAME, UpdateGame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
-			
-			for (var i = 0; i < charArray.length; i++)
+			RemoveListeners();
+			CurrentListeners = ListenerType;
+			switch (ListenerType)
 			{
-				Character(charArray[i]).addEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
+				case "bar":
+					
+					stage.addEventListener(Event.ENTER_FRAME, UpdateGame);
+					stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+					stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+					stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+					stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+					
+					for (var i = 0; i < charArray.length; i++)
+					{
+						Character(charArray[i]).addEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
+					}
+					break
 			}
 		
 		}
 		
 		public function RemoveListeners()
 		{
-			stage.removeEventListener(Event.ENTER_FRAME, UpdateGame);
-			stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			stage.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
-			
-			for (var i = 0; i < charArray.length; i++)
+			switch (CurrentListeners)
 			{
-				Character(charArray[i]).removeEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
+				case "bar": 
+					stage.removeEventListener(Event.ENTER_FRAME, UpdateGame);
+					stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+					stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
+					stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+					stage.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
+					
+					for (var i = 0; i < charArray.length; i++)
+					{
+						Character(charArray[i]).removeEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
+					}
+					break
+				
+				default: 
+					trace("Case broke (this should happen only once), current listener= " + CurrentListeners);
+					break
 			}
-		
 		}
 		
 		private function CreateTalkRange(dots:int, range:int)
@@ -169,7 +246,6 @@
 			playerpointerx = stage.mouseX;
 		}
 		
-
 		private function keyDown(e:KeyboardEvent)
 		{
 			
@@ -230,7 +306,6 @@
 			
 			MousePoint.x = stage.mouseX;
 			MousePoint.y = stage.mouseY;
-	
 			
 			player_mc.MoveTo(playerpointerx, playerpointery, 20);
 			
