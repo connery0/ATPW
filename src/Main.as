@@ -3,7 +3,11 @@
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.Point;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
 	import flash.net.Responder;
+	import flash.net.URLRequest;
 	import flash.text.*;
 	
 	/**
@@ -34,6 +38,14 @@
 		var CurrentLabel:String;
 		var SubLabel:String = ""; //used in the fight
 		
+		// sound vars
+		var musicChannel:SoundChannel = new SoundChannel();
+		var backgroundSounds:SoundChannel = new SoundChannel();
+		var barSound:Cattails = new Cattails();
+		var battleSound:Ouroboros = new Ouroboros();
+		var punchSound:Punch = new Punch();
+		var rainsound:Rain = new Rain();
+		
 		public function Main():void
 		{
 			if (stage)
@@ -62,10 +74,20 @@
 					case "intro": 
 						CurrentListeners = "";
 						CurrentLabel = "intro";
-						trace("Cue music");
+						
+						/////////////////////////////////////////////////////////////////////////////////////////////////////////
+						musicChannel.stop();
+						backgroundSounds.stop();
+						musicChannel = barSound.play(0, 99, new SoundTransform(0.3));
+						backgroundSounds = rainsound.play(0, 99, new SoundTransform(0.8));
+						/////////////////////////////////////////////////////////////////////////////////////////////////////////
 						break
 					
-					case "bar": 
+					case "bar":
+						
+						musicChannel.soundTransform = new SoundTransform(0.8);
+						backgroundSounds.soundTransform = new SoundTransform(0.4);
+						
 						CurrentLabel = "bar"
 						this.stop();
 						BarCode();
@@ -75,61 +97,91 @@
 						stop();
 						addListeners("fight");
 						CurrentLabel = "fight";
-						MovieClip(Kick_mc).addEventListener(MouseEvent.CLICK, atackClicked);
-						MovieClip(Punch_mc).addEventListener(MouseEvent.CLICK, atackClicked);
+						
+						MovieClip(Kick_mc).gotoAndStop("show");
+						MovieClip(Punch_mc).gotoAndStop("show");
+						MovieClip(Charging_mc).gotoAndStop("show");
+						
 						break
-					case "prefight":
+					case "prefight": 
 						while (layer1.numChildren > 0)
 						{
 							layer1.removeChildAt(0);
 						}
+						musicChannel.stop();
+						backgroundSounds.stop();
+						musicChannel = battleSound.play(0, 99);
+						
+						backgroundSounds.soundTransform = new SoundTransform(1);
+						musicChannel.soundTransform = new SoundTransform(1);
+						
 						CurrentLabel = "prefight";
-					break
+						break
 					
-					case "endPunch":
+					case "endPunch": 
 						gotoAndPlay("enemyAtack");
-					break	
-					case "endKick":
+						break
+					
+					case "endKick": 
 						gotoAndPlay("enemyAtack");
-					break	
-					case "endEnemyAtack":
+						break
+					
+					case "endEnemyAtack": 
+						Restart_mc.alpha = 1;
+						Restart_mc.addEventListener(MouseEvent.CLICK, ClickedReset);
 						gotoAndStop("fight");
-					break	
+						break
 					
 					default:
-						CurrentLabel = MovieClip(this).currentLabel;
-					break;
-				
-				}
-				
-			}
-			if ((MovieClip(this).currentLabel) == "fight") {
-				if ((MovieClip(Kick_mc).currentLabel) == "hide" || (MovieClip(Punch_mc).currentLabel) == "hide") {
-					var target:String
-						if (MovieClip(Kick_mc).currentLabel == "hide" ) {
-								target="kick";
-						}else {
-							target="punch";
+						
+						if (this.currentLabel == "punchSound" || this.currentFrameLabel == "kickSound" || this.currentFrameLabel == "enemySound")
+						{
+							backgroundSounds = punchSound.play();
 						}
+						CurrentLabel = MovieClip(this).currentLabel;
+						break;
+				
+				}
+				
+			}
+			if ((MovieClip(this).currentLabel) == "fight")
+			{
+				if ((MovieClip(Kick_mc).currentLabel) == "hide" || (MovieClip(Punch_mc).currentLabel) == "hide")
+				{
+					var target:String
+					if (MovieClip(Kick_mc).currentLabel == "hide")
+					{
+						target = "kick";
+					}
+					else
+					{
+						target = "punch";
+					}
 					
-						MovieClip(Kick_mc).gotoAndStop("hide");
-						MovieClip(Punch_mc).gotoAndStop("hide");
-						MovieClip(Charging_mc).gotoAndStop("hide");
-						gotoAndPlay(target);
+					MovieClip(Kick_mc).gotoAndStop("hide");
+					MovieClip(Punch_mc).gotoAndStop("hide");
+					MovieClip(Charging_mc).gotoAndStop("hide");
+					gotoAndPlay(target);
 				}
 			}
-			
 		
 		}
 		
-		public function atackClicked(e:MouseEvent) {
+		public function ClickedReset(e:Event)
+		{	
+			Restart_mc.removeEventListener(MouseEvent.CLICK, ClickedReset);
+			addListeners("");
+			gotoAndPlay(1);			
+		}
+		
+		public function atackClicked(e:MouseEvent)
+		{
 			e.target.play();
-			
 		}
 		
 		public function BarCode():void
 		{
-			pickedAFight = true;
+			pickedAFight = false;
 			layer1 = new Marker(new Point(0, 0));
 			layer2 = new Marker(new Point(0, 0));
 			
@@ -138,7 +190,7 @@
 			
 			player_mc = new Player(this);
 			/////////////////////////////////////////////////
-			obstArray = [new Table_mc(new Point(60, 288)), new Table_mc(new Point(500, 85)), new Table_mc(new Point(582, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 510)), new BorderV(new Point(-39, 250)), new BorderV(new Point(840, 250))];
+			obstArray = [new Table_mc(new Point(60, 288)), new Table_mc(new Point(500, 85)), new Table_mc(new Point(582, 294)), new Bar_mc(new Point(327, 360)), new BorderH(new Point(380, -44)), new BorderH(new Point(380, 439)), new BorderV(new Point(-39, 250)), new BorderV(new Point(676, 250))];
 			charArray = [new Polytheist_mc(new Point(507, 300), this), new Pc_mc(new Point(78, 109), this), new Bartering_mc(new Point(323, 351), this), new Greedy_mc(new Point(560, 60), this), new Drunk_mc(new Point(45, 365), this)];
 			//////////////////////////////////////////////////
 			
@@ -179,6 +231,12 @@
 						Character(charArray[i]).addEventListener(MouseEvent.CLICK, Character(charArray[i]).talkTo);
 					}
 					break
+				
+				case "fight": 
+					MovieClip(Kick_mc).addEventListener(MouseEvent.CLICK, atackClicked);
+					MovieClip(Punch_mc).addEventListener(MouseEvent.CLICK, atackClicked);
+					break
+			
 			}
 		
 		}
@@ -200,8 +258,13 @@
 					}
 					break
 				
+				case "fight": 
+					MovieClip(Kick_mc).removeEventListener(MouseEvent.CLICK, atackClicked);
+					MovieClip(Punch_mc).removeEventListener(MouseEvent.CLICK, atackClicked);
+					break
+				
 				default: 
-					trace("Case broke (this should happen only once), current listener= " + CurrentListeners);
+					
 					break
 			}
 		}

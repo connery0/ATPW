@@ -1,4 +1,4 @@
-package 
+﻿package 
 {
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -36,6 +36,7 @@ package
 		
 		private function progress(e:ProgressEvent):void 
 		{
+			loader.PreLoaderText.text= (ProgressEvent(e).bytesLoaded+"/"+e.bytesTotal)+"% loaded";
 			// TODO update loader
 		}
 		
@@ -61,6 +62,7 @@ package
 		
 		private function startup():void 
 		{
+			gotoAndStop(2)
 			var mainClass:Class = getDefinitionByName("Main") as Class;
 			addChild(new mainClass() as DisplayObject);
 		}

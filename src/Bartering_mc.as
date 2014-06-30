@@ -58,7 +58,7 @@
 						new Dialog(T, "Oh yeah? Well, your sources are wrong."),
 						new Dialog(P, "..."),
 						new Dialog(T, "Tell you what though, I hope that Nihilism eats the hell out of the Pantheon, haha. Get rid of those blighters and we can live in peace forever."),
-						new Dialog(P, "I concur. On that point, at least"),
+						new Dialog(P, "I concur. On that point, at least."),
 						new Dialog(T, "Well, on all the points, you mean. The only ones who say otherwise are, like, those progressive-hippie thoughts, the ones all up in their gang wars in the Artist’s Quarter."),
 						new Dialog(P, "..."),
 						new Dialog(T, "That, or... terrorists."),

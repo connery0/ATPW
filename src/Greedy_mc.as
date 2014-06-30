@@ -8,7 +8,7 @@
 		
 		public function Greedy_mc(Position:Point, parentClip:Main, orignal:Boolean = true)
 		{
-			super(Position, parentClip, "Greedy thought", orignal);
+			super(Position, parentClip, "Greedy Thought", orignal);
 		
 		}
 		
