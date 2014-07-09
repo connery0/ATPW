@@ -46,17 +46,8 @@
 		var punchSound:Punch = new Punch();
 		var rainsound:Rain = new Rain();
 		
-		public function Main():void
+		public function Main(e:Event = null):void
 		{
-			if (stage)
-				init();
-			else
-				addEventListener(Event.ADDED_TO_STAGE, init);
-		}
-		
-		private function init(e:Event = null):void
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
 			///////////////////////////////////////////////////////////////
 			// entry point                                               //
 			///////////////////////////////////////////////////////////////
@@ -220,11 +211,11 @@
 			{
 				case "bar":
 					
-					stage.addEventListener(Event.ENTER_FRAME, UpdateGame);
-					stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-					stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
-					stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-					stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+					this.addEventListener(Event.ENTER_FRAME, UpdateGame);
+					this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+					this.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+					this.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+					this.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 					
 					for (var i = 0; i < charArray.length; i++)
 					{
@@ -246,11 +237,11 @@
 			switch (CurrentListeners)
 			{
 				case "bar": 
-					stage.removeEventListener(Event.ENTER_FRAME, UpdateGame);
-					stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-					stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
-					stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-					stage.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
+					this.removeEventListener(Event.ENTER_FRAME, UpdateGame);
+					this.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+					this.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
+					this.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+					this.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
 					
 					for (var i = 0; i < charArray.length; i++)
 					{
@@ -305,8 +296,8 @@
 		
 		private function Clicked(e:Event)
 		{
-			playerpointery = stage.mouseY;
-			playerpointerx = stage.mouseX;
+			playerpointery = mouseY;
+			playerpointerx = mouseX;
 		}
 		
 		private function keyDown(e:KeyboardEvent)
@@ -363,12 +354,12 @@
 		{
 			if (mDown)
 			{
-				playerpointery = stage.mouseY;
-				playerpointerx = stage.mouseX;
+				playerpointery = mouseY;
+				playerpointerx = mouseX;
 			}
 			
-			MousePoint.x = stage.mouseX;
-			MousePoint.y = stage.mouseY;
+			MousePoint.x = this.mouseX;
+			MousePoint.y = this.mouseY;
 			
 			player_mc.MoveTo(playerpointerx, playerpointery, 20);
 			
